@@ -1,9 +1,0 @@
-name: msprime 
-channels:
-  - conda-forge
-dependencies:
-  - numpy
-  - msprime
-  - scipy
-  - matplotlib
-
