@@ -1,5 +1,5 @@
 // Initial random seed:
-1569979761018
+1590664672805
 
 // RunInitializeCallbacks():
 initializeTreeSeq();
@@ -13,16 +13,14 @@ initializeRecombinationRate(1e-07);
 // Starting run at generation <start>:
 1 
 
-"1569979761018 lost -- restarting"
-"1569979761019 lost -- restarting"
-"1569979761020 lost -- restarting"
-"1569979761021 lost -- restarting"
-"1569979761022 lost -- restarting"
-"1569979761023 lost -- restarting"
-"1569979761024 lost -- restarting"
-"1569979761025 lost -- restarting"
-"1569979761026 lost -- restarting"
-"1569979761027 lost -- restarting"
-"1569979761028 lost -- restarting"
-"1569979761029 lost -- restarting"
-"1569979761030 fixed"
+"1590664672805 lost -- restarting"
+"1590664672806 lost -- restarting"
+"1590664672807 lost -- restarting"
+"1590664672808 lost -- restarting"
+"1590664672809 lost -- restarting"
+"1590664672810 lost -- restarting"
+"1590664672811 lost -- restarting"
+"1590664672812 lost -- restarting"
+"1590664672813 lost -- restarting"
+"1590664672814 lost -- restarting"
+"1590664672815 fixed"
