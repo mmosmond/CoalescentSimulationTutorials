@@ -1,0 +1,5 @@
+name: msprime 
+dependencies:
+  - python
+  - numpy
+  - msprime
