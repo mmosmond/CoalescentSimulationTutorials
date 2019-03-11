@@ -1,0 +1,87 @@
+
+initialize() {
+    initializeSLiMModelType("nonWF"); //non Wright Fisher model
+    initializeTreeSeq(); //record the tree
+    
+    defineConstant("N0", 1e4); //initial pop size (integer)
+    defineConstant("d", 0.05); // wildtype decline rate [0,1]
+    defineConstant("s", 0.2); //beneficial selection coefficient ([0,1]; s>d for rescue to be possible) 
+    defineConstant("h", 0.5); //beneficial dominance [0,1]
+    defineConstant("B", 2); //offspring per parent (positive integer; must be great than 1 for possible persistence) 
+    defineConstant("L", 1e5 - 1); //number of sites (positive integer)
+    defineConstant("L0", 5e4 - 1); //site number of beneficial locus (positive integer, L0<L)
+    defineConstant("mu", 1e-5); //mutation rate at beneficial locus [0,1]
+    defineConstant("r", 1e-7); //recombination rate per base pair [0,1]
+
+    initializeMutationType("m1", h, "f", s); //beneficial mutation characteristics
+    m1.mutationStackPolicy = "f"; //dont let beneficial mutations stack, instead keep first mutation (makes mutation origin clear; can still get soft sweeps)
+    initializeMutationType("m2", 0.5, "f", 0.0); //neutral mutations (heritability has no affect)
+    
+    initializeGenomicElementType("g1", m1, 1.0); //define element g1 to have beneficial mutations
+    initializeGenomicElementType("g2", m2, 1.0); //define element g2 to have neutral mutations
+    initializeGenomicElement(g1, L0, L0); //element g1 is just one site
+    initializeGenomicElement(g2, 0, L0 - 1); // element g2 is everything to the left...
+    initializeGenomicElement(g2, L0 + 1, L); // ...and everything to the right of LO
+
+    initializeMutationRate(c(0,mu,0), c(L0-1, L0, L)); //mutation rate per site (can set different rates for different blocks)
+    initializeRecombinationRate(r); //recombination rate between sites 
+}
+
+
+// occurs right before early events, in this case right before census
+reproduction() {
+    for (i in 1:B) //B matings per parent
+        subpop.addCrossed(individual, subpop.sampleIndividuals(1)); //random mating, 1 offspring per pair
+}
+
+// initialize population
+1 early() {
+    sim.addSubpop("p1", N0); //initialize population of wildtypes
+    defineConstant("simID", getSeed()); //get the random seed to make sure any future runs use a different seed	
+    sim.outputFull("/tmp/slim_" + simID + ".txt"); //output this initial state to use for future runs if needed
+}
+
+// census and update fitness
+early() {
+    inds = sim.subpopulations.individuals; //get info on all individuals
+    inds[inds.age > 0].fitnessScaling = 0.0; //parents all die (discrete generations)
+    off = inds[inds.age == 0]; //just focusing on offspring
+
+    // hard carrying capacity by random culling
+    N = length(off); //total number of offspring produced
+    if (N>N0) { //if more than N0 (which we treat as carrying capacity)...
+        indices = which(inds.age == 0); //get indices of offspring
+        inds[sample(indices, N-N0)].fitnessScaling = 0.0; //kill a random subset to reduce N to N0
+        off = inds[inds.fitnessScaling > 0]; //get surviving offspring
+    }
+    
+    // census offspring
+    N = length(off); //population size
+    freq = sum(asInteger(off.genomes.countOfMutationsOfType(m1)>0))/(2*N); //frequency of beneficial mutation
+    if (N==0) {
+        print(sim.generation-1 + ": " + N); //print generation and population size
+        print("extinction in generation " + (sim.generation-1) + " - RESTARTING");
+        sim.readFromPopulationFile("/tmp/slim_" + simID + ".txt"); //reinitialize simulation
+        setSeed(getSeed() + 1); //change random seed
+    }
+    else {       
+        print(sim.generation-1 + ": " + N + ", " + freq); //print generation and population size and frequency
+        if (freq == 1.0) {  //if mutation fixed
+            print("rescue mutant fixes in generation " + (sim.generation-1.0));
+            sim.simulationFinished(); //end simulation
+            sim.treeSeqOutput("./rescue.trees"); //save tree sequence
+        }
+    }
+
+    // fitness scaling
+    p1.fitnessScaling = (1.0 - d)/B; //scale fitness so that wildtype has multiplicative growth rate B(1-d)/B = (1-d) 
+}
+
+// backup end simulation if runs too long
+2000 late () {
+    print("time is up, make max gens longer");
+    sim.treeSeqOutput("./unfinished.trees");
+    sim.simulationFinished();
+}
+
+
