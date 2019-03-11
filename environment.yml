@@ -1,4 +1,6 @@
 name: msprime 
+channels:
+  - conda-forge
 dependencies:
   - python
   - numpy
