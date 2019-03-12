@@ -19,24 +19,15 @@ initialize()
  initializeGenomicElement(g1, 0, 99999);
 
 // uniform recombination along the chromosome
- initializeRecombinationRate(1e-8);
+ initializeRecombinationRate(1e-7);
 }
 
-// create a population of 500 individuals
-1 {sim.addSubpop("p1", 500);}
+// create a population of individuals
+1 {sim.addSubpop("p1", 1e4);}
 
-// output sample of 10 haploid genomes after gen 5000
-// 5000 late() { p1.outputSample(10); }
-
-// output sample in MS form
-// 5000 late() {p1.outputMSSample(10);}
-
-// output sample in VCF form
-// 5000 late () {p1.outputVCFSample(10);}
-
-// run to generation 10000
-10000 {
+// run to some generation 
+100 {
   sim.simulationFinished();
-  sim.treeSeqOutput("./neutral_WF_trees.trees");
+  sim.treeSeqOutput("./neutral_WF_trees.trees"); //save the tree sequence
   }
 

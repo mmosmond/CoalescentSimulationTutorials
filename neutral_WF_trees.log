@@ -1,5 +1,5 @@
 // Initial random seed:
-1596858396869
+1607495394820
 
 // RunInitializeCallbacks():
 initializeTreeSeq();
@@ -7,7 +7,7 @@ initializeMutationRate(0);
 initializeMutationType(1, 0.5, "f", 0);
 initializeGenomicElementType(1, m1, 1);
 initializeGenomicElement(g1, 0, 99999);
-initializeRecombinationRate(1e-08);
+initializeRecombinationRate(1e-07);
 
 // Starting run at generation <start>:
 1 
