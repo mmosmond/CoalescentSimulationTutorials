@@ -1,0 +1,8 @@
+name: coalescent
+channels:
+  - conda-forge
+dependencies:
+  - numpy
+  - matplotlib
+  - msprime
+  - scipy

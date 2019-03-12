@@ -1,11 +1,11 @@
 // Initial random seed:
-1590664672805
+1598619597910
 
 // RunInitializeCallbacks():
 initializeTreeSeq();
 initializeMutationRate(0);
 initializeMutationType(1, 0.5, "f", 0);
-initializeMutationType(2, 0.5, "f", 0.1);
+initializeMutationType(2, 0.5, "f", 0.2);
 initializeGenomicElementType(1, m1, 1);
 initializeGenomicElement(g1, 0, 99999);
 initializeRecombinationRate(1e-07);
@@ -13,14 +13,4 @@ initializeRecombinationRate(1e-07);
 // Starting run at generation <start>:
 1 
 
-"1590664672805 lost -- restarting"
-"1590664672806 lost -- restarting"
-"1590664672807 lost -- restarting"
-"1590664672808 lost -- restarting"
-"1590664672809 lost -- restarting"
-"1590664672810 lost -- restarting"
-"1590664672811 lost -- restarting"
-"1590664672812 lost -- restarting"
-"1590664672813 lost -- restarting"
-"1590664672814 lost -- restarting"
-"1590664672815 fixed"
+"1598619597910 fixed"

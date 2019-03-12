@@ -5,7 +5,7 @@ initialize() {
     
     defineConstant("N0", 1e4); //initial pop size (integer)
     defineConstant("d", 0.05); // wildtype decline rate [0,1]
-    defineConstant("s", 0.2); //beneficial selection coefficient ([0,1]; s>d for rescue to be possible) 
+    defineConstant("s", 0.15); //beneficial selection coefficient ([0,1]; s>d for rescue to be possible) 
     defineConstant("h", 0.5); //beneficial dominance [0,1]
     defineConstant("B", 2); //offspring per parent (positive integer; must be great than 1 for possible persistence) 
     defineConstant("L", 1e5 - 1); //number of sites (positive integer)
@@ -69,7 +69,7 @@ early() {
         if (freq == 1.0) {  //if mutation fixed
             print("rescue mutant fixes in generation " + (sim.generation-1.0));
             sim.simulationFinished(); //end simulation
-            sim.treeSeqOutput("./rescue.trees"); //save tree sequence
+            sim.treeSeqOutput("./rescue_nonWF.trees"); //save tree sequence
         }
     }
 
