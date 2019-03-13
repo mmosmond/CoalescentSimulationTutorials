@@ -6,3 +6,4 @@ dependencies:
   - matplotlib
   - msprime
   - scipy
+  - cmake
